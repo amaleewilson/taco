@@ -3,7 +3,7 @@
 
 namespace taco {
 struct IndexVarRelNode;
-enum IndexVarRelType {UNDEFINED, SPLIT, POS, FUSE, BOUND, PRECOMPUTE};
+enum IndexVarRelType {UNDEFINED, SPLIT, DIVIDE, POS, FUSE, BOUND, PRECOMPUTE};
 
 /// A pointer class for IndexVarRelNodes provides some operations for all IndexVarRelTypes
 class IndexVarRel : public util::IntrusivePtr<const IndexVarRelNode> {
@@ -110,6 +110,48 @@ private:
 };
 
 bool operator==(const SplitRelNode&, const SplitRelNode&);
+
+/// The divide relation is similar to split, but it takes a parentVar's iteration space and stripmines into an outervar 
+/// that iterates divideFactor times over the iterations of innerVar.
+struct DivideRelNode : public IndexVarRelNode {
+  DivideRelNode(IndexVar parentVar, IndexVar outerVar, IndexVar innerVar, size_t divideFactor);
+
+  const IndexVar& getParentVar() const;
+  const IndexVar& getOuterVar() const;
+  const IndexVar& getInnerVar() const;
+  const size_t& getDivideFactor() const;
+
+  void print(std::ostream& stream) const;
+  bool equals(const DivideRelNode &rel) const;
+  std::vector<IndexVar> getParents() const; // parentVar
+  std::vector<IndexVar> getChildren() const; // outerVar, innerVar
+  std::vector<IndexVar> getIrregulars() const; // outerVar
+
+
+  std::vector<ir::Expr> computeRelativeBound(std::set<IndexVar> definedVars, 
+    std::map<IndexVar, std::vector<ir::Expr>> computedBounds, std::map<IndexVar, 
+    ir::Expr> variableExprs, Iterators iterators, ProvenanceGraph provGraph) const;
+
+  std::vector<ir::Expr> deriveIterBounds(IndexVar indexVar, std::map<IndexVar, 
+    std::vector<ir::Expr>> parentIterBounds, std::map<IndexVar, std::vector<ir::Expr>> parentCoordBounds, 
+    std::map<taco::IndexVar, taco::ir::Expr> variableNames, Iterators iterators, ProvenanceGraph provGraph) const;
+
+  /// parentVar = outerVar * CEIL(i_size, divide_factor) + innervar
+  ir::Expr recoverVariable(IndexVar indexVar, std::map<IndexVar, ir::Expr> variableNames, 
+    Iterators iterators, std::map<IndexVar, std::vector<ir::Expr>> parentIterBounds, std::map<IndexVar, 
+    std::vector<ir::Expr>> parentCoordBounds, ProvenanceGraph provGraph) const;
+
+  /// outerVar = (parentVar - innerVar) / CEIL(i_size, divide_factor), 
+  /// innerVar = parentVar - outer * CEIL(i_size, divide_factor)
+  ir::Stmt recoverChild(IndexVar indexVar, std::map<IndexVar, ir::Expr> relVariables, bool emitVarDecl, 
+    Iterators iterators, ProvenanceGraph provGraph) const;
+
+private:
+  struct Content;
+  std::shared_ptr<Content> content;
+};
+
+bool operator==(const DivideRelNode&, const DivideRelNode&);
 
 /// The Pos relation maps an index variable to the position space of a given access
 struct PosRelNode : public IndexVarRelNode {
