@@ -1102,7 +1102,7 @@ IndexStmt IndexStmt::pos(IndexVar i, IndexVar ipos, Access access) const {
   for (Access argAccess : getArgumentAccesses(*this)) {
     if (argAccess.getTensorVar() == access.getTensorVar() && argAccess.getIndexVars() == access.getIndexVars()) {
       foundAccess = true;
-      false;
+      break;
     }
   }
   if (!foundAccess) {
@@ -1114,7 +1114,7 @@ IndexStmt IndexStmt::pos(IndexVar i, IndexVar ipos, Access access) const {
   vector<IndexVar> underivedParentAncestors = provGraph.getUnderivedAncestors(i);
   int max_mode = 0;
   for (IndexVar underived : underivedParentAncestors) {
-    size_t mode_index = 0; // which of the access index vars match?
+    int mode_index = 0; // which of the access index vars match?
     for (auto var : access.getIndexVars()) {
       if (var == underived) {
         break;
@@ -1123,7 +1123,7 @@ IndexStmt IndexStmt::pos(IndexVar i, IndexVar ipos, Access access) const {
     }
     if (mode_index > max_mode) max_mode = mode_index;
   }
-  if (max_mode >= access.getIndexVars().size()) {
+  if ((size_t)max_mode >= access.getIndexVars().size()) {
     taco_uerror << "Index variable " << i << " does not appear in access: " << access;
   }
 
