@@ -315,7 +315,7 @@ IndexStmt div_exampleScheduleSPMVPosIteration(IndexStmt stmt, Tensor<double> A) 
              .pos(f, p, A(i, j));
 }
 
-TEST(div_scheduling_eval, test_spmvCPU_temp) {
+TEST(div_scheduling_eval, div_test_spmvCPU_temp) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -423,7 +423,7 @@ TEST(div_scheduling_eval, example_spmvCPU_dividepos) {
   ASSERT_TENSOR_EQ(expected, y);
 }
 
-TEST(div_scheduling_eval, spmmCPU) {
+TEST(div_scheduling_eval, div_spmmCPU) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -474,7 +474,7 @@ TEST(div_scheduling_eval, spmmCPU) {
   ASSERT_TENSOR_EQ(expected, C);
 }
 
-TEST(div_scheduling_eval, sddmmCPU) {
+TEST(div_scheduling_eval, div_sddmmCPU) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -534,7 +534,7 @@ TEST(div_scheduling_eval, sddmmCPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, spmvCPU) {
+TEST(div_scheduling_eval, div_spmvCPU) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -582,7 +582,7 @@ TEST(div_scheduling_eval, spmvCPU) {
   ASSERT_TENSOR_EQ(expected, y);
 }
 
-TEST(div_scheduling_eval, ttvCPU) {
+TEST(div_scheduling_eval, div_ttvCPU) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -633,7 +633,7 @@ TEST(div_scheduling_eval, ttvCPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, ttmCPU) {
+TEST(div_scheduling_eval, div_ttmCPU) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -687,7 +687,7 @@ TEST(div_scheduling_eval, ttmCPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, mttkrpCPU) {
+TEST(div_scheduling_eval, div_mttkrpCPU) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -749,7 +749,7 @@ TEST(div_scheduling_eval, mttkrpCPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, spmvGPU) {
+TEST(div_scheduling_eval, div_spmvGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }
@@ -797,7 +797,7 @@ TEST(div_scheduling_eval, spmvGPU) {
   ASSERT_TENSOR_EQ(expected, y);
 }
 
-TEST(div_scheduling_eval, spmmGPU) {
+TEST(div_scheduling_eval, div_spmmGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }
@@ -848,7 +848,7 @@ TEST(div_scheduling_eval, spmmGPU) {
   ASSERT_TENSOR_EQ(expected, C);
 }
 
-TEST(div_scheduling_eval, spmmDCSRGPU) {
+TEST(div_scheduling_eval, div_spmmDCSRGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }
@@ -899,7 +899,7 @@ TEST(div_scheduling_eval, spmmDCSRGPU) {
   ASSERT_TENSOR_EQ(expected, C);
 }
 
-TEST(div_scheduling_eval, sddmmGPU) {
+TEST(div_scheduling_eval, div_sddmmGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }
@@ -959,7 +959,7 @@ TEST(div_scheduling_eval, sddmmGPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, ttmGPU) {
+TEST(div_scheduling_eval, div_ttmGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }
@@ -1013,7 +1013,7 @@ TEST(div_scheduling_eval, ttmGPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, ttvGPU) {
+TEST(div_scheduling_eval, div_ttvGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }
@@ -1065,7 +1065,7 @@ TEST(div_scheduling_eval, ttvGPU) {
   ASSERT_TENSOR_EQ(expected, A);
 }
 
-TEST(div_scheduling_eval, mttkrpGPU) {
+TEST(div_scheduling_eval, div_mttkrpGPU) {
   if (!should_use_CUDA_codegen()) {
     return;
   }

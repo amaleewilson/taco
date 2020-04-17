@@ -182,12 +182,9 @@ std::vector<ir::Expr> SplitRelNode::computeRelativeBound(std::set<IndexVar> defi
   }
   else if(outerVarDefined && !innerVarDefined) {
     // outerVar constrains space to a length splitFactor strip starting at outerVar * splitFactor
-    std::cout << " split outer not inner " << std::endl;
     ir::Expr minBound = parentBound[0];
     minBound = ir::Add::make(minBound, ir::Mul::make(variableExprs[getOuterVar()], splitFactorLiteral));
     ir::Expr maxBound = ir::Min::make(parentBound[1], ir::Add::make(minBound, splitFactorLiteral));
-    std::cout << " min " << minBound << std::endl;
-    std::cout << " max " << maxBound << std::endl;
     return {minBound, maxBound};
   }
   else if(!outerVarDefined && innerVarDefined) {

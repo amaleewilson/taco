@@ -14,11 +14,11 @@ const IndexVar i("i"), j("j"), k("k");
 TEST(div_scheduling, divideEquality) {
   IndexVar i1, i2;
   IndexVar j1, j2;
-  IndexVarRel rel1 = IndexVarRel(new SplitRelNode(i, i1, i2, 2));
-  IndexVarRel rel2 = IndexVarRel(new SplitRelNode(i, i1, i2, 2));
-  IndexVarRel rel3 = IndexVarRel(new SplitRelNode(j, i1, i1, 2));
-  IndexVarRel rel4 = IndexVarRel(new SplitRelNode(i, i1, i2, 4));
-  IndexVarRel rel5 = IndexVarRel(new SplitRelNode(i, j1, j2, 2));
+  IndexVarRel rel1 = IndexVarRel(new DivideRelNode(i, i1, i2, 2));
+  IndexVarRel rel2 = IndexVarRel(new DivideRelNode(i, i1, i2, 2));
+  IndexVarRel rel3 = IndexVarRel(new DivideRelNode(j, i1, i1, 2));
+  IndexVarRel rel4 = IndexVarRel(new DivideRelNode(i, i1, i2, 4));
+  IndexVarRel rel5 = IndexVarRel(new DivideRelNode(i, j1, j2, 2));
 
   ASSERT_EQ(rel1, rel2);
   ASSERT_NE(rel1, rel3);
@@ -59,7 +59,7 @@ TEST(div_scheduling, divideIndexStmt) {
 
   ASSERT_TRUE(isa<SuchThat>(divideStmt));
   SuchThat suchThat = to<SuchThat>(divideStmt);
-  ASSERT_EQ(suchThat.getPredicate(), vector<IndexVarRel>({IndexVarRel(new SplitRelNode(i, i1, i2, 2))}));
+  ASSERT_EQ(suchThat.getPredicate(), vector<IndexVarRel>({IndexVarRel(new DivideRelNode(i, i1, i2, 2))}));
 
   ASSERT_TRUE(isa<Forall>(suchThat.getStmt()));
   Forall i1Forall = to<Forall>(suchThat.getStmt());
