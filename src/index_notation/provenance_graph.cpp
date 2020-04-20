@@ -361,8 +361,8 @@ std::vector<ir::Expr> DivideRelNode::computeRelativeBound(std::set<IndexVar> def
 
 
     ir::Expr maxBound = ir::Min::make(parentBound[1], ir::Add::make(minBound, divideFactorLiteral));
-    std::cout << maxBound << std::endl;
-  std::cout << __LINE__ << " outer not inner " << std::endl;
+    // std::cout << maxBound << std::endl;
+  // std::cout << __LINE__ << " outer not inner " << std::endl;
     return {minBound, maxBound};
   }
   else if(!outerVarDefined && innerVarDefined) {
@@ -371,7 +371,7 @@ std::vector<ir::Expr> DivideRelNode::computeRelativeBound(std::set<IndexVar> def
   else {
     // std::cout << "outer AND inner" << std::endl;
 
-  std::cout << __LINE__ << " inner and outer " << std::endl;
+  // std::cout << __LINE__ << " inner and outer " << std::endl;
 
     taco_iassert(outerVarDefined && innerVarDefined);
     ir::Expr minBound = ir::Add::make(parentBound[0], ir::Add::make(ir::Mul::make(variableExprs[getOuterVar()], 

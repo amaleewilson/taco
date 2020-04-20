@@ -22,18 +22,18 @@ void div_printToCout(IndexStmt stmt) {
 void div_printToFile(string filename, IndexStmt stmt) {
   stringstream source;
 
-  string file_path = "eval_generated/";
-  mkdir(file_path.c_str(), 0777);
+  string div_file_path = "eval_generated/";
+  mkdir(div_file_path.c_str(), 0777);
 
   std::shared_ptr<ir::CodeGen> codegen = ir::CodeGen::init_default(source, ir::CodeGen::ImplementationGen);
   ir::Stmt compute = lower(stmt, "compute",  false, true);
   codegen->compile(compute, true);
 
-  ofstream source_file;
-  string file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
-  source_file.open(file_path + filename + file_ending);
-  source_file << source.str();
-  source_file.close();
+  ofstream div_source_file;
+  string div_file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
+  div_source_file.open(div_file_path + filename + div_file_ending);
+  div_source_file << source.str();
+  div_source_file.close();
 }
 
 IndexStmt div_scheduleSpMVCPU(IndexStmt stmt, int CHUNK_SIZE=16) {
@@ -370,7 +370,7 @@ TEST(div_scheduling_eval, div_test_spmvCPU_temp) {
   ASSERT_TENSOR_EQ(expected, y);
 }
 
-TEST(div_scheduling_eval, example_spmvCPU_dividepos) {
+TEST(div_scheduling_eval, div_example_spmvCPU_dividepos) {
   if (should_use_CUDA_codegen()) {
     return;
   }
@@ -1160,9 +1160,9 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
   int NUM_M = 100;
   int NUM_N = 100;
 
-  string file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
-  string file_path = "eval_prepared_cpu/";
-  mkdir(file_path.c_str(), 0777);
+  string div_file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
+  string div_file_path = "eval_prepared_cpu/";
+  mkdir(div_file_path.c_str(), 0777);
 
   // spmv
   {
@@ -1180,10 +1180,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "spmv_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "spmv_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // spmm
@@ -1202,10 +1202,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "spmm_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "spmm_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // sddmm
@@ -1225,10 +1225,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "sddmm_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "sddmm_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // ttv
@@ -1247,10 +1247,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "ttv_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "ttv_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // ttm
@@ -1269,10 +1269,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "ttm_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "ttm_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp3
@@ -1292,10 +1292,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp3_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp3_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp3 workspace
@@ -1318,10 +1318,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
     ir::Stmt compute = lower(div_scheduled, string("mttkrp3_workspace"),  false, true);
     codegen->compile(compute, true);
 
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp3_cpu_workspace" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp3_cpu_workspace" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp4
@@ -1342,10 +1342,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp4_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp4_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp4 workspace
@@ -1375,10 +1375,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
     ir::Stmt compute = lower(div_scheduled, string("mttkrp4_workspace"),  false, true);
     codegen->compile(compute, true);
 
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp4_cpu_workspace" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp4_cpu_workspace" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp5
@@ -1400,10 +1400,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp5_cpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp5_cpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp5 workspace
@@ -1437,10 +1437,10 @@ TEST(div_generate_evaluation_files, DISABLED_cpu) {
     ir::Stmt compute = lower(div_scheduled, string("mttkrp5_workspace"),  false, true);
     codegen->compile(compute, true);
 
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp5_cpu_workspace" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp5_cpu_workspace" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 }
 
@@ -1472,9 +1472,9 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
   int NUM_K = 100;
   int NUM_L = 100;
 
-  string file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
-  string file_path = "eval_prepared_gpu/";
-  mkdir(file_path.c_str(), 0777);
+  string div_file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
+  string div_file_path = "eval_prepared_gpu/";
+  mkdir(div_file_path.c_str(), 0777);
 
   // spmv load-balance
   {
@@ -1498,10 +1498,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
     codegen->compile(compute, isFirst);
 
 
-    ofstream source_file;
-    source_file.open(file_path + "spmv_gpu_warp_vs_thread" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "spmv_gpu_warp_vs_thread" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // spmv
@@ -1521,10 +1521,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "spmv_gpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "spmv_gpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // spmm
@@ -1545,10 +1545,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "spmm_gpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "spmm_gpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // sddmm
@@ -1570,10 +1570,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "sddmm_gpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "sddmm_gpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // ttv
@@ -1593,10 +1593,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "ttv_gpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "ttv_gpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // ttm
@@ -1616,10 +1616,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "ttm_gpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "ttm_gpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 
   // mttkrp
@@ -1641,10 +1641,10 @@ TEST(div_generate_evaluation_files, DISABLED_gpu) {
       codegen->compile(compute, isFirst);
       isFirst = false;
     }
-    ofstream source_file;
-    source_file.open(file_path + "mttkrp_gpu" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "mttkrp_gpu" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 }
 
@@ -1656,9 +1656,9 @@ TEST(div_generate_figures, DISABLED_cpu) {
   int NUM_I = 100;
   int NUM_J = 100;
 
-  string file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
-  string file_path = "figures_cpu/";
-  mkdir(file_path.c_str(), 0777);
+  string div_file_ending = should_use_CUDA_codegen() ? ".cu" : ".c";
+  string div_file_path = "figures_cpu/";
+  mkdir(div_file_path.c_str(), 0777);
 
   // spmv
   {
@@ -1681,9 +1681,9 @@ TEST(div_generate_figures, DISABLED_cpu) {
       isFirst = false;
       ii++;
     }
-    ofstream source_file;
-    source_file.open(file_path + "fig_spmv" + file_ending);
-    source_file << source.str();
-    source_file.close();
+    ofstream div_source_file;
+    div_source_file.open(div_file_path + "fig_spmv" + div_file_ending);
+    div_source_file << source.str();
+    div_source_file.close();
   }
 }
