@@ -763,7 +763,7 @@ TEST(div_scheduling_eval_test, spmv_fuse) {
   Tensor<double> x("x", {NUM_J}, {Dense});
   Tensor<double> y("y", {NUM_I}, {Dense});
 
-  srand(59393);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);

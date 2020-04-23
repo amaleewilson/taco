@@ -8,6 +8,7 @@
 #include "taco/index_notation/index_notation.h"
 #include "codegen/codegen.h"
 #include "taco/lower/lower.h"
+#include <ctime>
 
 using namespace taco;
 const IndexVar i("i"), j("j"), k("k"), l("l"), m("m"), n("n");
@@ -326,7 +327,7 @@ TEST(div_scheduling_eval, div_test_spmvCPU_temp) {
   Tensor<double> x("x", {NUM_J}, {Dense});
   Tensor<double> y("y", {NUM_I}, {Dense});
 
-  srand(4353);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -382,7 +383,7 @@ TEST(div_scheduling_eval, div_example_spmvCPU_dividepos) {
   Tensor<double> x("x", {NUM_J}, {Dense});
   Tensor<double> y("y", {NUM_I}, {Dense});
 
-  srand(53535);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -435,7 +436,7 @@ TEST(div_scheduling_eval, div_spmmCPU) {
   Tensor<double> B("B", {NUM_J, NUM_K}, {Dense, Dense});
   Tensor<double> C("C", {NUM_I, NUM_K}, {Dense, Dense});
 
-  srand(75883);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -487,7 +488,7 @@ TEST(div_scheduling_eval, div_sddmmCPU) {
   Tensor<double> C("C", {NUM_I, NUM_J}, {Dense, Dense});
   Tensor<double> D("D", {NUM_J, NUM_K}, {Dense, Dense});
 
-  srand(268238);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -545,7 +546,7 @@ TEST(div_scheduling_eval, div_spmvCPU) {
   Tensor<double> x("x", {NUM_J}, {Dense});
   Tensor<double> y("y", {NUM_I}, {Dense});
 
-  srand(120);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -594,7 +595,7 @@ TEST(div_scheduling_eval, div_ttvCPU) {
   Tensor<double> B("B", {NUM_I, NUM_J, NUM_K}, {Sparse, Sparse, Sparse});
   Tensor<double> c("c", {NUM_K}, {Dense});
 
-  srand(9536);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       for (int k = 0; k < NUM_K; k++) {
@@ -646,7 +647,7 @@ TEST(div_scheduling_eval, div_ttmCPU) {
   Tensor<double> B("B", {NUM_I, NUM_J, NUM_K}, {Sparse, Sparse, Sparse});
   Tensor<double> C("C", {NUM_K, NUM_L}, {Dense, Dense});
 
-  srand(935);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       for (int k = 0; k < NUM_K; k++) {
@@ -701,7 +702,7 @@ TEST(div_scheduling_eval, div_mttkrpCPU) {
   Tensor<double> C("C", {NUM_K, NUM_J}, {Dense, Dense});
   Tensor<double> D("D", {NUM_L, NUM_J}, {Dense, Dense});
 
-  srand(549694);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int k = 0; k < NUM_K; k++) {
       for (int l = 0; l < NUM_L; l++) {
@@ -760,7 +761,7 @@ TEST(div_scheduling_eval, div_spmvGPU) {
   Tensor<double> x("x", {NUM_J}, {Dense});
   Tensor<double> y("y", {NUM_I}, {Dense});
 
-  srand(94353);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -809,7 +810,7 @@ TEST(div_scheduling_eval, div_spmmGPU) {
   Tensor<double> B("B", {NUM_J, NUM_K}, {Dense, Dense});
   Tensor<double> C("C", {NUM_I, NUM_K}, Format({{Dense, Dense}, {1, 0}}));
 
-  srand(434321);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -860,7 +861,7 @@ TEST(div_scheduling_eval, div_spmmDCSRGPU) {
   Tensor<double> B("B", {NUM_J, NUM_K}, {Dense, Dense});
   Tensor<double> C("C", {NUM_I, NUM_K}, {Dense, Dense});
 
-  srand(25643);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -912,7 +913,7 @@ TEST(div_scheduling_eval, div_sddmmGPU) {
   Tensor<double> C("C", {NUM_I, NUM_J}, {Dense, Dense});
   Tensor<double> D("D", {NUM_J, NUM_K}, {Dense, Dense});
 
-  srand(535366);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       float rand_float = (float)rand()/(float)(RAND_MAX);
@@ -972,7 +973,7 @@ TEST(div_scheduling_eval, div_ttmGPU) {
   Tensor<double> B("B", {NUM_I, NUM_J, NUM_K}, {Sparse, Sparse, Sparse});
   Tensor<double> C("C", {NUM_K, NUM_L}, {Dense, Dense});
 
-  srand(34644);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       for (int k = 0; k < NUM_K; k++) {
@@ -1025,7 +1026,7 @@ TEST(div_scheduling_eval, div_ttvGPU) {
   Tensor<double> B("B", {NUM_I, NUM_J, NUM_K}, {Sparse, Sparse, Sparse});
   Tensor<double> c("c", {NUM_K}, {Dense});
 
-  srand(35325);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int j = 0; j < NUM_J; j++) {
       for (int k = 0; k < NUM_K; k++) {
@@ -1079,7 +1080,7 @@ TEST(div_scheduling_eval, div_mttkrpGPU) {
   Tensor<double> C("C", {NUM_K, NUM_J}, {Dense, Dense});
   Tensor<double> D("D", {NUM_L, NUM_J}, {Dense, Dense});
 
-  srand(5464164);
+  srand(time(0));
   for (int i = 0; i < NUM_I; i++) {
     for (int k = 0; k < NUM_K; k++) {
       for (int l = 0; l < NUM_L; l++) {
